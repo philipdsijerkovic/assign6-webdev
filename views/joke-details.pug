@@ -1,0 +1,13 @@
+extends layout
+
+block scripts
+  script(src="/joke-details.js" defer)
+
+block append nav
+
+block layout-content
+    div.card-holder
+        h1 #{joke.setup}
+        h2 #{joke.delivery}
+        p This is a: #{joke.category}
+            

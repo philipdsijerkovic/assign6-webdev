@@ -1,0 +1,25 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title #{title}
+    link(rel="stylesheet" href="/styles.css" type="text/css")
+    block scripts
+      script(src="/script.js" defer)
+  body
+    block nav
+      nav
+        ul
+          li
+            a(href="/jokebook/random") Random Joke
+          li
+            a(href="/jokebook/all") All Jokes
+          li
+            a(href="/jokebook/joke/add") Add Jokes
+    h1 #{title}
+    div#root
+      block layout-content
+
+
+

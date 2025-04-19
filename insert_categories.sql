@@ -1,3 +1,3 @@
-INSERT INTO categories (name) VALUES
+INSERT INTO joke_categories (name) VALUES
 ('funnyJoke'),
 ('lameJoke');

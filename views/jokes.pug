@@ -1,0 +1,26 @@
+extends layout
+
+block scripts
+  script(src="/jokes-list.js" defer)
+
+block append nav
+
+block layout-content
+  button#new-joke-btn Add New Joke
+  div#form-popup
+    form#form-container
+      h1 New Joke
+      input#category(type="text", placeholder="Category", name="category_id", required)
+      input#setup(type="text", placeholder="Setup", name="setup", required)
+      input#delivery(type="text", placeholder="Delivery", name="delivery", required)
+      button#save-joke(type="submit") Save Joke
+
+
+  main.items-container
+  each joke in jokesList
+    article.item
+      div.text
+        h1 #{joke.id}: #{joke.setup}
+        h2 Delivery: #{joke.delivery}
+        p Category: #{joke.category}
+        

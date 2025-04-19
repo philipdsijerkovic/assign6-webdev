@@ -12,9 +12,11 @@ const { db_close } = require("./models/jokebook.db-conn");
 
 app.use(express.static("public"));
 app.use("/jokebook", jokeRoutes);
+app.set("view engine", "pug");
+app.set("views", __dirname + "/views");
 
 app.get("/", (req, res) => {
-  res.redirect("/jokebook/all");
+  res.redirect("/jokebook/random");
 });
 
 const PORT = process.env.PORT || 3000;

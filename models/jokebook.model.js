@@ -1,6 +1,6 @@
 "use strict";
 const { get } = require("http");
-const db = require("./db-conn");
+const db = require("./jokebook.db-conn");
 
 function getAll() {
   let sql = "SELECT * FROM jokes;";
@@ -9,25 +9,29 @@ function getAll() {
 }
 
 function createNew(params) {
-    db.run("INSERT OR IGNORE INTO joke_categories (name) VALUES (?);", params[0]);
-    const catRow = db.get("SELECT id FROM joke_categories WHERE name = ?;", params[0]); 
-    let sql = "INSERT INTO jokes (category_id, setup, delivery) VALUES (?, ?, ?);"; 
-    const info = db.run(sql, catRow.id, params[1], params[2]); // 
-    return info;
-  }
+  let sql = "INSERT INTO jokes " +
+    "(category_id, setup, delivery) " +
+    "VALUES(?, ?, ?); ";
+  const info = db.run(sql, params);
+  return info;
+}
 
 function getColumnNames() {
-  let sql = "select name from pragma_table_info('jokes');";
-  const columns = db.all(sql);
-  let result = columns.map(a => a.name);
-  return result;
+  const sql = "SELECT name FROM joke_categories;";
+  const categories = db.all(sql);
+  return categories.map(category => category.name);
 }
 
 function getRandomJoke() {
-    const sql = "SELECT * FROM jokes ORDER BY RANDOM() LIMIT 1;";
-    const joke = db.get(sql);
-    return joke;
-  }
+  const sql = `
+    SELECT jokes.id, joke_categories.name AS category, jokes.setup, jokes.delivery, jokes.created_at
+    FROM jokes
+    JOIN joke_categories ON jokes.category_id = joke_categories.id
+    ORDER BY RANDOM() LIMIT 1;
+  `;
+  const joke = db.get(sql);
+  return joke;
+}
 
 function getJokesByCategory(category) {
     const sql = `
